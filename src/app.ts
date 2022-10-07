@@ -7,10 +7,30 @@ const port = process.env.PORT || 5000;
 
 //routes
 import TestRouter from './routes/test.route';
+import UserRouter from './routes/user.route';
+import InfoRouter from './routes/info.route';
+import TaskRouter from './routes/task.route';
+import AccountRouter from './routes/account.route';
 
 //middleware
 app.use(json());
 app.use(TestRouter);
+app.use(UserRouter);
+app.use(InfoRouter);
+app.use(TaskRouter);
+app.use(AccountRouter);
+
+//authentication
+config
+  .authenticate()
+  .then(() => {
+    config.sync({ force: process.env.RESET == "true" ? true : false });
+    console.log("Connected to Database!");
+  })
+  .catch((err) => {
+    console.log(err);
+  });
+
 
 let serve = async () => {
     config.authenticate();
