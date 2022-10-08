@@ -12,6 +12,7 @@ TaskRouter.get("/get-all-task", async (req: Request, res: Response) => {
     return res.status(authenticate.status).send(authenticate);
   }
 });
+
 TaskRouter.get("/get-one-task/:id", async (req: Request, res: Response) => {
   let authenticate = await AuthService.verify(req.headers["authorization"]);
   if (authenticate.status == 200) {

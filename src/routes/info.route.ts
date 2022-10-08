@@ -12,6 +12,7 @@ InfoRouter.get("/get-all-info", async (req: Request, res: Response) => {
     return res.status(authenticate.status).send(authenticate);
   }
 });
+
 InfoRouter.get("/get-one-info/:id", async (req: Request, res: Response) => {
   let authenticate = await AuthService.verify(req.headers["authorization"]);
   if (authenticate.status == 200) {

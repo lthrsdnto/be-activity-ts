@@ -12,6 +12,7 @@ UserRouter.get("/get-all-user", async (req: Request, res: Response) => {
     return res.status(authenticate.status).send(authenticate);
   }
 });
+
 UserRouter.get("/get-one-user/:id", async (req: Request, res: Response) => {
   let authenticate = await AuthService.verify(req.headers["authorization"]);
   if (authenticate.status == 200) {

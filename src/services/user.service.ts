@@ -8,9 +8,9 @@ class UserService extends CommonResponse {
     try {
       let exist = await User.findAll();
       if (exist.length != 0) {
-        return this.RESPONSE(200, exist, 0, "Record Found Successfully!");
+        return this.RESPONSE(200, exist, 0, "Users found.");
       } else {
-        return this.RESPONSE(404, [], 0, "No Record Found!");
+        return this.RESPONSE(404, [], 0, "Users not found.");
       }
     } catch (error: any) {
       return this.RESPONSE(500, [], 0, "Internal Server Error!");
@@ -22,12 +22,12 @@ class UserService extends CommonResponse {
     try {
       let exist = await User.findOne({ where: { id: dto } });
       if (exist !== null) {
-        return this.RESPONSE(200, exist, 0, "Record found");
+        return this.RESPONSE(200, exist, 0, "User found.");
       } else {
-        return this.RESPONSE(404, {}, 0, "No record found");
+        return this.RESPONSE(404, {}, 0, "No user found.");
       }
     } catch (error) {
-      return this.RESPONSE(500, {}, 0, "Internal Server Error");
+      return this.RESPONSE(500, {}, 0, "Internal Server Error!");
     }
   }
 
@@ -38,12 +38,12 @@ class UserService extends CommonResponse {
       if (exist == null) {
         let response = await User.create({ ...dto });
         if (response !== null) {
-          return this.RESPONSE(200, response, 0, "Created successfully");
+          return this.RESPONSE(200, response, 0, "User created successfully.");
         } else {
-          return this.RESPONSE(400, {}, 0, "Failed to create record");
+          return this.RESPONSE(400, {}, 0, "Failed to create user.");
         }
       } else {
-        return this.RESPONSE(200, exist, 0, "Already exist");
+        return this.RESPONSE(200, exist, 0, "User already exist.");
       }
     } catch (error: any) {
       return this.RESPONSE(500, [], 0, "Internal Server Error!");
@@ -59,12 +59,17 @@ class UserService extends CommonResponse {
           where: { id: dto.id },
         });
         if (updateData != null) {
-          return this.RESPONSE(202, updateData, 0, "Successfully updated");
+          return this.RESPONSE(
+            202,
+            updateData,
+            0,
+            "User updated successfully."
+          );
         } else {
-          return this.RESPONSE(400, {}, 0, "Failed to update data");
+          return this.RESPONSE(400, {}, 0, "Failed to update user.");
         }
       } else {
-        return this.RESPONSE(404, {}, 0, "Record not found");
+        return this.RESPONSE(404, {}, 0, "User not found.");
       }
     } catch (error) {
       return this.RESPONSE(500, {}, 0, "Internal Server Error!");
@@ -78,12 +83,12 @@ class UserService extends CommonResponse {
       if (exist != null) {
         let removeData = await User.destroy({ where: { id: dto } });
         if (removeData != null) {
-          return this.RESPONSE(200, {}, 0, "Successfully deleted");
+          return this.RESPONSE(200, {}, 0, "User deleted successfully.");
         } else {
-          return this.RESPONSE(400, {}, 0, "Failed to delete data");
+          return this.RESPONSE(400, {}, 0, "Failed to delete user.");
         }
       } else {
-        return this.RESPONSE(404, {}, 0, "Record not found");
+        return this.RESPONSE(404, {}, 0, "User not found.");
       }
     } catch (error) {
       return this.RESPONSE(500, {}, 0, "Internal Server Error!");

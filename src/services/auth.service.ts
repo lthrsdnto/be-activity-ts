@@ -3,6 +3,7 @@ const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv").config();
 
 class AuthService extends CommonResponse {
+  //authentication
   async auth(requestObject: any) {
     try {
       let authentication = jwt.sign(requestObject, process.env.SECRET_KEY);
@@ -14,13 +15,14 @@ class AuthService extends CommonResponse {
           "Success!"
         );
       } else {
-        return this.RESPONSE(400, {}, 0, "Bad request");
+        return this.RESPONSE(400, {}, 0, "Bad request.");
       }
     } catch (err) {
-      return this.RESPONSE(500, err, 0, "Internal Server Error");
+      return this.RESPONSE(500, err, 0, "Internal Server Error.");
     }
   }
 
+  //verification
   async verify(token: any) {
     try {
       if (token != null || token != undefined) {
@@ -33,20 +35,20 @@ class AuthService extends CommonResponse {
               200,
               verification,
               0,
-              "Successfully verified token"
+              "Successfully verified token."
             );
           } else {
-            return this.RESPONSE(400, {}, 0, "Bad Request");
+            return this.RESPONSE(400, {}, 0, "Bad Request.");
           }
         } else {
-          return this.RESPONSE(404, {}, 0, "token not found");
+          return this.RESPONSE(404, {}, 0, "Token not found.");
         }
       } else {
-        return this.RESPONSE(400, {}, 0, "Token is not valid");
+        return this.RESPONSE(400, {}, 0, "Token is not valid.");
       }
     } catch (err) {
       console.log(err);
-      return this.RESPONSE(500, err, 0, "Internal Server Error");
+      return this.RESPONSE(500, err, 0, "Internal Server Error.");
     }
   }
 }

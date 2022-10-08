@@ -1,58 +1,56 @@
-import CommonResponse from '../utils/response.util'
-import Test from '../models/tables/Test'
-import { AddTestDTO } from '../models/dto/TestDTO'
+import CommonResponse from "../utils/response.util";
+import Test from "../models/tables/Test";
+import { AddTestDTO } from "../models/dto/TestDTO";
 
-
-class TestService extends CommonResponse{
-  
-    //get all record
-    async getTest() {
-        try {
-            let exist = await Test.findAll()
-            if (exist.length != 0) {
-                return this.RESPONSE(200, exist, 0,"Record Found Successfully!")
-            } else {
-                return this.RESPONSE(404, [],0, "No Record Found!")
-            }
-        } catch (error:any) {
-            return this.RESPONSE(500, [],0, "Internal Server Error!")
-        }
+class TestService extends CommonResponse {
+  //get all record
+  async getTest() {
+    try {
+      let exist = await Test.findAll();
+      if (exist.length != 0) {
+        return this.RESPONSE(200, exist, 0, "Record Found Successfully!");
+      } else {
+        return this.RESPONSE(404, [], 0, "No Record Found!");
+      }
+    } catch (error: any) {
+      return this.RESPONSE(500, [], 0, "Internal Server Error!");
     }
+  }
 
-    //get one record
+  //get one record
   async getOneData(dto: AddTestDTO["requestObject"]) {
     try {
       let exist = await Test.findOne({ where: { id: dto } });
       if (exist !== null) {
-        return this.RESPONSE(200, exist, 0,"Record found");
+        return this.RESPONSE(200, exist, 0, "Record found");
       } else {
-        return this.RESPONSE(404, {}, 0,"No record found");
+        return this.RESPONSE(404, {}, 0, "No record found");
       }
     } catch (error) {
-      return this.RESPONSE(500, {}, 0,"Internal Server Error");
+      return this.RESPONSE(500, {}, 0, "Internal Server Error");
     }
   }
 
-    //create data
-    async createTest(dto: AddTestDTO["requestObject"]) {
-        try {
-            let exist = await Test.findOne({ where: { name: dto.name } });
-            if (exist == null) {
-                let response = await Test.create({ ...dto })
-                if (response !== null) {
-                    return this.RESPONSE(200, response, 0, "Created successfully");
-                } else {
-                    return this.RESPONSE(400, {}, 0, "Failed to create record");
-                }
-            } else {
-                return this.RESPONSE(200, exist, 0,"Already exist");
-              }
-        } catch (error:any) {
-            return this.RESPONSE(500, [],0, "Internal Server Error!")
+  //create data
+  async createTest(dto: AddTestDTO["requestObject"]) {
+    try {
+      let exist = await Test.findOne({ where: { name: dto.name } });
+      if (exist == null) {
+        let response = await Test.create({ ...dto });
+        if (response !== null) {
+          return this.RESPONSE(200, response, 0, "Created successfully");
+        } else {
+          return this.RESPONSE(400, {}, 0, "Failed to create record");
         }
+      } else {
+        return this.RESPONSE(200, exist, 0, "Already exist");
+      }
+    } catch (error: any) {
+      return this.RESPONSE(500, [], 0, "Internal Server Error!");
     }
+  }
 
-      //update data
+  //update data
   async updateTest(dto: AddTestDTO["requestObject"]) {
     try {
       let exist = await Test.findOne({ where: { id: dto.id } });
@@ -82,16 +80,15 @@ class TestService extends CommonResponse{
         if (removeData != null) {
           return this.RESPONSE(200, {}, 0, "Successfully deleted");
         } else {
-          return this.RESPONSE(400, {}, 0,"Failed to delete data");
+          return this.RESPONSE(400, {}, 0, "Failed to delete data");
         }
       } else {
-        return this.RESPONSE(404, {}, 0,"Record not found");
+        return this.RESPONSE(404, {}, 0, "Record not found");
       }
     } catch (error) {
-      return this.RESPONSE(500, {}, 0,"Internal Server Error!");
+      return this.RESPONSE(500, {}, 0, "Internal Server Error!");
     }
   }
-
 }
 
-export default new TestService;
+export default new TestService();

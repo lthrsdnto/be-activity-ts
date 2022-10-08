@@ -1,16 +1,16 @@
-import express, { Application, Request, Response, json } from 'express';
-import dotenv, { DotenvConfigOutput } from 'dotenv';
-import config from './config/config';
+import express, { Application, Request, Response, json } from "express";
+import dotenv, { DotenvConfigOutput } from "dotenv";
+import config from "./config/config";
 const app: express.Application = express();
 const env_config: DotenvConfigOutput = dotenv.config();
 const port = process.env.PORT || 5000;
 
 //routes
-import TestRouter from './routes/test.route';
-import UserRouter from './routes/user.route';
-import InfoRouter from './routes/info.route';
-import TaskRouter from './routes/task.route';
-import AccountRouter from './routes/account.route';
+import TestRouter from "./routes/test.route";
+import UserRouter from "./routes/user.route";
+import InfoRouter from "./routes/info.route";
+import TaskRouter from "./routes/task.route";
+import AccountRouter from "./routes/account.route";
 
 //middleware
 app.use(json());
@@ -31,13 +31,13 @@ config
     console.log(err);
   });
 
-
+//serve
 let serve = async () => {
-    config.authenticate();
-    config.sync({force: false})
-    app.listen(port, () => {
-        console.log(`listening on port ${port}`)
-    })
-}
+  config.authenticate();
+  config.sync({ force: false });
+  app.listen(port, () => {
+    console.log(`listening on port ${port}`);
+  });
+};
 
 serve();
