@@ -1,7 +1,7 @@
 export class AddAccountDTO {
     requestObject?: any = {
         username: "",
-        password: "",
+        password: "" ,
         is_active: ""
     }
 }
