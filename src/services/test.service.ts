@@ -1,8 +1,205 @@
 import CommonResponse from "../utils/response.util";
 import Test from "../models/tables/Test";
 import { AddTestDTO } from "../models/dto/TestDTO";
+import { Op } from "sequelize";
 
 class TestService extends CommonResponse {
+  //or
+  async getTestOr(id: number) {
+    try {
+      let exist = await Test.findOne({
+        where: { id: { [Op.or]: [1, 2, id] } },
+      });
+      if (exist != null) {
+        return this.RESPONSE(200, exist, 0, "Record found successfully");
+      } else {
+        return this.RESPONSE(404, {}, 0, "Record not found");
+      }
+    } catch (err: any) {
+      return this.RESPONSE(500, err, 0, "Internal Server Error!");
+    }
+  }
+
+  //and
+  async getTestAndOp(id: number) {
+    try {
+      let exist = await Test.findAll({
+        where: { id: { [Op.and]: [{ id: id }, { name: null }] } },
+      });
+      if (exist != null) {
+        return this.RESPONSE(200, exist, 0, "Record found successfully");
+      } else {
+        return this.RESPONSE(404, {}, 0, "Record not found");
+      }
+    } catch (err: any) {
+      return this.RESPONSE(500, err, 0, "Internal Server Error!");
+    }
+  }
+
+  //greater than
+  async getTestGreaterThan() {
+    try {
+      let exist = await Test.findAll({
+        where: { id: { [Op.gt]: 5 } },
+      });
+      let count: number = await Test.count({
+        where: { id: { [Op.gt]: 5 } },
+      });
+      if (exist.length != 0) {
+        return this.RESPONSE(200, exist, count, "Record found successfully");
+      } else {
+        return this.RESPONSE(404, {}, 0, "Record not found");
+      }
+    } catch (err: any) {
+      return this.RESPONSE(500, err, 0, "Internal Server Error!");
+    }
+  }
+
+  //less than
+  async getTestLessThan() {
+    try {
+      let exist = await Test.findAll({
+        where: { id: { [Op.lt]: 5 } },
+      });
+      let count: number = await Test.count({
+        where: { id: { [Op.lt]: 5 } },
+      });
+      if (exist.length != 0) {
+        return this.RESPONSE(200, exist, count, "Record found successfully");
+      } else {
+        return this.RESPONSE(404, {}, 0, "Record not found");
+      }
+    } catch (err: any) {
+      return this.RESPONSE(500, err, 0, "Internal Server Error!");
+    }
+  }
+
+  //not equal
+  async getTestNotOpFindAll(id: number) {
+    try {
+      let exist = await Test.findAll({
+        where: {
+          id: { [Op.ne]: id },
+        },
+      });
+      if (exist.length != 0) {
+        return this.RESPONSE(200, exist, 0, "Record found successfully");
+      } else {
+        return this.RESPONSE(404, {}, 0, "Record not found");
+      }
+    } catch (err: any) {
+      return this.RESPONSE(500, err, 0, "Internal Server Error!");
+    }
+  }
+
+  //ilike
+  async getTestILikeOpFindAll(name: string) {
+    try {
+      let exist = await Test.findAll({
+        where: {
+          name: { [Op.iLike]: `%${name}%` },
+        },
+      });
+      if (exist.length != 0) {
+        return this.RESPONSE(200, exist, 0, "Record found successfully");
+      } else {
+        return this.RESPONSE(404, {}, 0, "Record not found");
+      }
+    } catch (err: any) {
+      return this.RESPONSE(500, err, 0, "Internal Server Error!");
+    }
+  }
+
+  //notilike
+  async getTestNotILike(name: string) {
+    try {
+      let exist = await Test.findAll({
+        where: {
+          name: { [Op.notILike]: `%${name}%` },
+        },
+      });
+      if (exist.length != 0) {
+        return this.RESPONSE(200, exist, 0, "Record found successfully");
+      } else {
+        return this.RESPONSE(404, {}, 0, "Record not found");
+      }
+    } catch (err: any) {
+      return this.RESPONSE(500, err, 0, "Internal Server Error!");
+    }
+  }
+
+  //like
+  async getTestLike(name: string) {
+    try {
+      let exist = await Test.findAll({
+        where: {
+          name: { [Op.like]: `%${name}%` },
+        },
+      });
+      if (exist.length != 0) {
+        return this.RESPONSE(200, exist, 0, "Record found successfully");
+      } else {
+        return this.RESPONSE(404, {}, 0, "Record not found");
+      }
+    } catch (err: any) {
+      return this.RESPONSE(500, err, 0, "Internal Server Error!");
+    }
+  }
+
+  //notlike
+  async getTestNotLike(name: string) {
+    try {
+      let exist = await Test.findAll({
+        where: {
+          name: { [Op.notLike]: `%${name}%` },
+        },
+      });
+      if (exist.length != 0) {
+        return this.RESPONSE(200, exist, 0, "Record found successfully");
+      } else {
+        return this.RESPONSE(404, {}, 0, "Record not found");
+      }
+    } catch (err: any) {
+      return this.RESPONSE(500, err, 0, "Internal Server Error!");
+    }
+  }
+
+  //startswith
+  async getStartsWith(name: string) {
+    try {
+      let exist = await Test.findAll({
+        where: {
+          name: { [Op.startsWith]: `%${name}%` },
+        },
+      });
+      if (exist.length != 0) {
+        return this.RESPONSE(200, exist, 0, "Record found successfully");
+      } else {
+        return this.RESPONSE(404, {}, 0, "Record not found");
+      }
+    } catch (err: any) {
+      return this.RESPONSE(500, err, 0, "Internal Server Error!");
+    }
+  }
+
+  //endswith
+  async getEndsWith(name: string) {
+    try {
+      let exist = await Test.findAll({
+        where: {
+          name: { [Op.endsWith]: `%${name}%` },
+        },
+      });
+      if (exist.length != 0) {
+        return this.RESPONSE(200, exist, 0, "Record found successfully");
+      } else {
+        return this.RESPONSE(404, {}, 0, "Record not found");
+      }
+    } catch (err: any) {
+      return this.RESPONSE(500, err, 0, "Internal Server Error!");
+    }
+  }
+
   //get all record
   async getTest() {
     try {
@@ -26,8 +223,8 @@ class TestService extends CommonResponse {
       } else {
         return this.RESPONSE(404, {}, 0, "No record found");
       }
-    } catch (error) {
-      return this.RESPONSE(500, {}, 0, "Internal Server Error");
+    } catch (err: any) {
+      return this.RESPONSE(500, err, 0, "Internal Server Error");
     }
   }
 
@@ -45,8 +242,8 @@ class TestService extends CommonResponse {
       } else {
         return this.RESPONSE(200, exist, 0, "Already exist");
       }
-    } catch (error: any) {
-      return this.RESPONSE(500, [], 0, "Internal Server Error!");
+    } catch (err: any) {
+      return this.RESPONSE(500, err, 0, "Internal Server Error!");
     }
   }
 
@@ -66,8 +263,8 @@ class TestService extends CommonResponse {
       } else {
         return this.RESPONSE(404, {}, 0, "Record not found");
       }
-    } catch (error) {
-      return this.RESPONSE(500, {}, 0, "Internal Server Error!");
+    } catch (err: any) {
+      return this.RESPONSE(500, err, 0, "Internal Server Error!");
     }
   }
 
@@ -85,8 +282,8 @@ class TestService extends CommonResponse {
       } else {
         return this.RESPONSE(404, {}, 0, "Record not found");
       }
-    } catch (error) {
-      return this.RESPONSE(500, {}, 0, "Internal Server Error!");
+    } catch (err: any) {
+      return this.RESPONSE(500, err, 0, "Internal Server Error!");
     }
   }
 }

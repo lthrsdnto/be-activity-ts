@@ -1,14 +1,14 @@
-import { AddUserDTO } from "../models/dto/UserDTO";
 import Account from "../models/tables/Account";
 import CommonResponse from "../utils/response.util";
 import dotenv, { DotenvConfigOutput } from "dotenv";
 import AuthService from "./auth.service";
+import { AddAccountDTO } from "../models/dto/AccountDTO";
 const env_config: DotenvConfigOutput = dotenv.config();
 const bcrypt = require("bcrypt");
 
 class AccountService extends CommonResponse {
   //login
-  async login(dto: AddUserDTO["requestObject"]) {
+  async login(dto: AddAccountDTO["requestObject"]) {
     try {
       let exist = await Account.findOne({
         where: { username: dto.username },
@@ -39,7 +39,7 @@ class AccountService extends CommonResponse {
   }
 
   //signup
-  async signup(dto: AddUserDTO["requestObject"]) {
+  async signup(dto: AddAccountDTO["requestObject"]) {
     try {
       if (dto != null) {
         let exist = await Account.findOne({
